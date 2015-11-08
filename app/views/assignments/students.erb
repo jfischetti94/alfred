@@ -23,7 +23,7 @@
 		<%= t sas[:assignment_status].status %>
 		<% if sas[:assignment_status].latest_solution_date %>
 			<% if sas[:assignment_status].latest_solution_date > sas[:assignment_status].deadline%>
-				-overdue
+				*
 			<%end%>
 		<%end%>
 	  </td>

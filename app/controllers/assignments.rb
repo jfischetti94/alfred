@@ -23,7 +23,7 @@ Alfred::App.controllers :assignments do
 
     @students_with_assignment_status = []
     @assignment.course.students.each do | student |
-      @students_with_assignment_status << { :student => student, :assignment_status => student.status_for_assignment(@assignment) }
+    @students_with_assignment_status << { :student => student, :assignment_status => student.status_for_assignment(@assignment) }
     end
 
     render 'assignments/students'
