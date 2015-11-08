@@ -15,7 +15,7 @@ Feature: Students list
       And I am logged in as teacher
     When I follow "Alumnos"
     Then I see 5 elements    
-@wip
+
   Scenario: No elements
     Given the course "2013-1"
       And the teacher "John"
