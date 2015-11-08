@@ -2,8 +2,21 @@
   <input type="text" class="input-medium search-query" id="filter" placeholder="tipea para filtrar">
 </div>
 
+<div id="pagecontrol">
+	<select id="pagesize" name="pagesize" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+		<option value="5">5</option>
+		<option value="10">10</option>
+		<option value="15">15</option>
+		<option value="20">20</option>
+		<option value="25">25</option>
+		<option value="30">30</option>
+		<option value="40">40</option>
+		<option value="50">50</option>
+	</select>
+</div>
 <div>Mostrando: <span id="rowCount"></span> registros</div>
-<table id="studentsGrid" class="table table-bordered table-striped table-hover"">
+<div>
+<table id="studentsGrid" class="table table-bordered table-striped table-hover">
 	<tr>
 		<th><%= t('buid').capitalize %></th>
 		<th><%= t('name').capitalize %></th>
@@ -25,7 +38,8 @@
 	</tr>
 	<% end %>
 </table>
-
+</div>
+<div id="paginator"></div>
 <% content_for :additional_js do %>
 	<%= javascript_include_tag 'editablegrid-2.0.1.min.js' %>
 	<%= javascript_include_tag 'grid_extensions.js' %>
