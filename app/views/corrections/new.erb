@@ -1,9 +1,12 @@
 <div class="tabs-content">
-  <h2><%=  assignment_and_author_information(@correction) %> </h2>
+  <h2>
+    <%= image_tag gravatar_url_for(@correction.solution.account.email), class: "img-circle", width: "40px" %> 
+    <%=  assignment_and_author_information(@correction) %> 
+  </h2>
   <p class="lead"><%= solution_abridged_info(@correction.solution) %></p>
   <p>
   <a href="mailto:#"><%= @correction.solution.account.email %></a> | 
-  <%= @correction.solution.account.tag %>
+  <%= t('tag') %> <%= @correction.solution.account.tag %>
   </p>
   <p>
   <%= "#{t('solutions.form.comments')}" %>: 

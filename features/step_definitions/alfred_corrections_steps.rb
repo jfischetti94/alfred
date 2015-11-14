@@ -126,3 +126,11 @@ Then(/^I should (not )?see last correction entry for "(.*?)" highlighted$/) do |
   end
 #  expect(row.has_css?("error")).to be (highlighted != 'not ')	#Should work but does not, dunno why.
 end
+
+Then(/^I should see student information$/) do
+  step "I should see \"Richard@someplace.com\""
+  variable=find(:xpath, "//img")
+  variable['src'].should include("http://www.gravatar.com/avatar/")
+end
+
+
