@@ -129,8 +129,7 @@ end
 
 Then(/^I should see student information$/) do
   step "I should see \"Richard@someplace.com\""
-  variable=find(:xpath, "//img")
-  variable['src'].should include("http://www.gravatar.com/avatar/")
+  step "I should see an image for \"Richard\""
 end
 
 
