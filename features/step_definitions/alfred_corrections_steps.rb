@@ -128,5 +128,5 @@ Then(/^I should (not )?see last correction entry for "(.*?)" highlighted$/) do |
 end
 
 Given(/^I qualify the solution$/) do
-  fill_in "grade", with: "4"
+  fill_in :correction_grade, :with => '4.0'
 end
