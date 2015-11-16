@@ -126,3 +126,7 @@ Then(/^I should (not )?see last correction entry for "(.*?)" highlighted$/) do |
   end
 #  expect(row.has_css?("error")).to be (highlighted != 'not ')	#Should work but does not, dunno why.
 end
+
+Given(/^I qualify the solution$/) do
+  fill_in "grade", with: "4"
+end
