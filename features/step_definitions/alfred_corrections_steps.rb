@@ -132,4 +132,6 @@ Then(/^I should see student information$/) do
   step "I should see an image for \"Richard\""
 end
 
-
+Given(/^I qualify the solution$/) do
+  fill_in :correction_grade, :with => '4.0'
+end
