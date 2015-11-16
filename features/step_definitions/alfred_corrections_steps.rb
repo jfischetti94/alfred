@@ -126,3 +126,10 @@ Then(/^I should (not )?see last correction entry for "(.*?)" highlighted$/) do |
   end
 #  expect(row.has_css?("error")).to be (highlighted != 'not ')	#Should work but does not, dunno why.
 end
+
+Then(/^I should see student information$/) do
+  step "I should see \"Richard@someplace.com\""
+  step "I should see an image for \"Richard\""
+end
+
+

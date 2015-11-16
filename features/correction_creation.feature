@@ -33,3 +33,11 @@ Feature: Correction creation
     And   I choose "Carla some_surname" as teacher for the correction
     And   I click "Cancelar"
     Then  I should not see "El TP fue asignado correctamente"
+
+  Scenario: Student information
+    Given I am logged in as teacher 
+    When  I follow "Trabajos prácticos"
+        And   I follow "Correcciones" for "TP1"
+        And   I click "Ver soluciones"
+        And   I click "Corregir"
+    Then I should see student information
