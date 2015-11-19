@@ -9,7 +9,7 @@ describe "AppController" do
   let(:student_buid)      { '00001' }
   let(:student_email)     { 'charlesdarwin@student.com' }
   let(:student_tag)       { '' }
-  let(:student_pass)      { 'foobar' }
+  let(:student_pass)      { 'Foobar1' }
   let(:course)            { Factories::Course.algorithm }
 
   describe "register" do

@@ -34,7 +34,7 @@ Feature: Correction creation
     And   I click "Cancelar"
     Then  I should not see "El TP fue asignado correctamente"
 
-  Scenario: Student information
+  Scenario: See student information
     Given I am logged in as teacher 
     When  I follow "Trabajos prácticos"
         And   I follow "Correcciones" for "TP1"
