@@ -23,6 +23,7 @@
       <tr>
         <th class="header"> <%= t('assignments.name').capitalize %></th>
         <th class="header"> <%= t('assignments.deadline').capitalize %></th>
+        <th class="header"> <%= t('assignments.submitted_pass_fail').capitalize %></th>
         <th class="header"><%= t('assignments.actions').capitalize %></th>
       </tr>
     </thead>
@@ -32,6 +33,9 @@
         <tr class="list-row">
           <td> <%= assignment.name %> </td>
           <td> <%= l assignment.deadline.to_date %> </td>
+
+          <td> <%=   submitted_pass_fail_for(assignment) %>  </td>
+
           <td class="list-column list-row-action">
             <div class='list-row-action-wrapper'>
               <%= link_to tag_icon(:edit), :href => url(:assignments, :edit, :id => assignment.id, :course_id => current_course.id), :rel => :tooltip, :title => t('assignments.edit'), :class => 'list-row-action-wrapper-link' %>

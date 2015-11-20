@@ -245,6 +245,7 @@ es:
     submitted: Entregados
     pass: Aprobados
     fail: Desaprobados
+    submitted_pass_fail: Entregados/Aprobados/Desaprobados
     approved_average: Promedio-Aprobados
     general_average: Promedio-General
     errors:
