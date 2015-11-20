@@ -6,8 +6,8 @@ module Factories
         :surname => surname,
         :buid => buid,
         :email => email,
-        :password => 'foobar',
-        :password_confirmation => 'foobar',
+        :password => 'Foobar1',
+        :password_confirmation => 'Foobar1',
         :role => Alfred::Admin::Account::TEACHER
       }
       Alfred::Admin::Account.find_by_email( email ) ||
@@ -20,8 +20,8 @@ module Factories
         :surname => surname,
         :buid => buid,
         :email => email,
-        :password => 'foobar',
-        :password_confirmation => 'foobar',
+        :password => 'Foobar1',
+        :password_confirmation => 'Foobar1',
         :role => Alfred::Admin::Account::STUDENT,
         :tag => 'mie'
       }

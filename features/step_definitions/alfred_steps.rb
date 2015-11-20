@@ -18,7 +18,7 @@ module WithinHelpers
   end
 
   def default_password
-    "Passw0rd!"
+    "Passw0rd!1"
   end
 
 end

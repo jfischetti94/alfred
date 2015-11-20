@@ -20,4 +20,16 @@ Alfred::App.helpers do
   def correction_template
     @correction.solution.assignment.correction_template || ""
   end
+
+  def public_comments
+    if not @correction.public_comments.nil?
+      if @correction.public_comments.empty?
+          return @correction.solution.assignment.correction_template
+      else
+          return @correction.public_comments
+      end
+    else 
+      return @correction.solution.assignment.correction_template
+    end
+  end
 end
