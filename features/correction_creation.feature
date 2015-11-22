@@ -1,4 +1,4 @@
-Feature: Correction creation
+Feature: Correction creation 
   As teacher
   I want to assign a teacher on charge of solution's grading
 
@@ -37,7 +37,8 @@ Feature: Correction creation
   Scenario: See student information
     Given I am logged in as teacher 
     When  I follow "Trabajos prácticos"
-        And   I follow "Correcciones" for "TP1"
-        And   I click "Ver soluciones"
-        And   I click "Corregir"
-    Then I should see student information
+    And   I follow "Correcciones" for "TP1"
+    And   I click "Ver soluciones"
+    And   I click "Corregir"
+    Then I should see "Richard@someplace.com"
+    And I should see an image for "Richard"
