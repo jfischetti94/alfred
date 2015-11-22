@@ -41,13 +41,15 @@ Feature: Assignment approved/disapproved column
     When I follow "Trabajos prácticos"
     Then I should see "1" for "TP1" at column Aprobados in table
     And  I should see "0" for "TP1" at column Desaprobados in table
-@wip
+
   Scenario: assignment solutions submitted and is in progress
     Given there are solutions submitted by students
     And  I am logged in as teacher 
     And  I follow "Trabajos prácticos"
     And  I follow "Correcciones" for "TP1"
-    And  I click "Asignarmelo a mi"
+    And  I click "Asignar a otro"
+    And  I click "Asignar a otro"
+    And  I click "Guardar"
     When I follow "Trabajos prácticos"
     Then I should see "0?" for "TP1" at column Aprobados in table
     And  I should see "0?" for "TP1" at column Desaprobados in table
