@@ -225,6 +225,24 @@ Given(/^I qualify the solution with "(.*?)"$/) do |qualification|
 end
 
 
-Then(/^I should see "(.*?)" for "(.*?)" in table$/) do |content, assignment|
-  find('tr', text: assignment).should have_content(content)
+Then(/^I should see "(.*?)" for "(.*?)" at column "(.*?)" in table$/) do |content, assignment, column|
+  if column = "Aprobados"
+    index = 2
+  end
+  if column =  "Desaprobados"
+    index = 3
+  end
+  row_values = find('tr', text: assignment).text.split(' ')
+  puts row_values
+  row_values.at(index).should have_content(content)
+end
+
+Then(/^I should see "(.*?)" for "(.*?)" at column Aprobados in table$/) do |content, assignment|
+  row_values = find('tr', text: assignment).text.split(' ')
+  row_values.at(2).should have_content(content)
+end
+
+Then(/^I should see "(.*?)" for "(.*?)" at column Desaprobados in table$/) do |content, assignment|
+  row_values = find('tr', text: assignment).text.split(' ')
+  row_values.at(3).should have_content(content)
 end

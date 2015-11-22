@@ -9,7 +9,15 @@ Alfred::App.helpers do
   end
 
   def fail_for assignment
-    return 0
-  end
+    fails = 0
 
+    assignment.solutions.each do |solution|
+      if not solution.correction.nil?
+        if solution.correction.status == :correction_failed
+          fails += 1
+        end
+      end
+    end
+    return fails
+  end
 end
