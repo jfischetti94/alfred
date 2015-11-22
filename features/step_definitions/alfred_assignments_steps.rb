@@ -224,19 +224,6 @@ Given(/^I qualify the solution with "(.*?)"$/) do |qualification|
   fill_in :correction_grade, :with => qualification
 end
 
-
-Then(/^I should see "(.*?)" for "(.*?)" at column "(.*?)" in table$/) do |content, assignment, column|
-  if column = "Aprobados"
-    index = 2
-  end
-  if column =  "Desaprobados"
-    index = 3
-  end
-  row_values = find('tr', text: assignment).text.split(' ')
-  puts row_values
-  row_values.at(index).should have_content(content)
-end
-
 Then(/^I should see "(.*?)" for "(.*?)" at column Aprobados in table$/) do |content, assignment|
   row_values = find('tr', text: assignment).text.split(' ')
   row_values.at(2).should have_content(content)
