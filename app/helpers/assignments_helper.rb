@@ -19,7 +19,7 @@ Alfred::App.helpers do
     count = 0
     @students.each do |student|
       status = (student.status_for_assignment assignment).status
-      if status == :correction_failed
+      if status == :correction_failed || status ==  :solution_pending
         count += 1
       end
     end

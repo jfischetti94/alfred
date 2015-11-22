@@ -8,7 +8,6 @@ Feature: Assignment approved/disapproved column
     Given the course with teacher and student enrolled
     And there is a bunch of assignment already created
 
-@wip
   Scenario: assignment without solutions submitted
     Given I am logged in as teacher 
     When  I follow "Trabajos prácticos"
