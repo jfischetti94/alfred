@@ -2,6 +2,7 @@ Alfred::App.controllers :assignments do
 
   get :index, :parent => :courses do
     @assignments = Assignment.all(:course => current_course)
+    @students = Account.all(:role => "student")
     render 'assignments/index'
   end
 

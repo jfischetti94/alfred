@@ -8,11 +8,12 @@ Feature: Assignment approved/disapproved column
     Given the course with teacher and student enrolled
     And there is a bunch of assignment already created
 
+@wip
   Scenario: assignment without solutions submitted
     Given I am logged in as teacher 
     When  I follow "Trabajos prácticos"
     Then  I should see "0" for "TP1" at column Aprobados in table
-    And   I should see "0" for "TP1" at column Desaprobados in table
+    And   I should see "1" for "TP1" at column Desaprobados in table
 
   Scenario: assignment solutions submitted and disapproved
     Given there are solutions submitted by students
@@ -41,3 +42,13 @@ Feature: Assignment approved/disapproved column
     When I follow "Trabajos prácticos"
     Then I should see "1" for "TP1" at column Aprobados in table
     And  I should see "0" for "TP1" at column Desaprobados in table
+@wip
+  Scenario: assignment solutions submitted and is in progress
+    Given there are solutions submitted by students
+    And  I am logged in as teacher 
+    And  I follow "Trabajos prácticos"
+    And  I follow "Correcciones" for "TP1"
+    And  I click "Asignarmelo a mi"
+    When I follow "Trabajos prácticos"
+    Then I should see "0?" for "TP1" at column Aprobados in table
+    And  I should see "0?" for "TP1" at column Desaprobados in table

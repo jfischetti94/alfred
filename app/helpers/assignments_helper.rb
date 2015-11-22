@@ -6,11 +6,10 @@ Alfred::App.helpers do
 
   def pass_for assignment
     count = 0
-    assignment.solutions.each do |solution|
-      if not solution.correction.nil?
-        if solution.correction.status == :correction_passed
-          count += 1
-        end
+    @students.each do |student|
+      status = (student.status_for_assignment assignment).status
+      if status == :correction_passed
+        count += 1
       end
     end
     return count
@@ -18,11 +17,10 @@ Alfred::App.helpers do
 
   def fail_for assignment
     count = 0
-    assignment.solutions.each do |solution|
-      if not solution.correction.nil?
-        if solution.correction.status == :correction_failed
-          count += 1
-        end
+    @students.each do |student|
+      status = (student.status_for_assignment assignment).status
+      if status == :correction_failed
+        count += 1
       end
     end
     return count
