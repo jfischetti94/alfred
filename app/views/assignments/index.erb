@@ -23,7 +23,8 @@
       <tr>
         <th class="header"> <%= t('assignments.name').capitalize %></th>
         <th class="header"> <%= t('assignments.deadline').capitalize %></th>
-        <th class="header"> <%= t('assignments.submitted_pass_fail').capitalize %></th>
+        <th class="header"> <%= t('assignments.pass').capitalize %></th>
+        <th class="header"> <%= t('assignments.fail').capitalize %></th>
         <th class="header"><%= t('assignments.actions').capitalize %></th>
       </tr>
     </thead>
@@ -34,7 +35,8 @@
           <td> <%= assignment.name %> </td>
           <td> <%= l assignment.deadline.to_date %> </td>
 
-          <td> <%=   submitted_pass_fail_for(assignment) %>  </td>
+          <td> <%=   pass_for(assignment) %>  </td>
+          <td> <%=   fail_for(assignment) %>  </td>
 
           <td class="list-column list-row-action">
             <div class='list-row-action-wrapper'>

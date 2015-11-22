@@ -7,15 +7,10 @@ Feature: Assignment approved/disapproved column
   Background:
     Given the course with teacher and student enrolled
     And there is a bunch of assignment already created
+    #And there is a assignment already created
 
   Scenario: assignment without solutions submitted
     Given I am logged in as teacher 
-    And   I follow "Trabajos prácticos"
-    Then  I should see "0/0/0"
+    When  I follow "Trabajos prácticos"
+    Then I should see "0" for "TP1" in table
 
-@wip
-  Scenario: assignment solutions submitted without correction
-    Given there are solutions submitted by students
-      And I am logged in as teacher 
-    And   I follow "Trabajos prácticos"
-    Then  I should see "0/0/1"
