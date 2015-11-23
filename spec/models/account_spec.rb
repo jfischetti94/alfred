@@ -232,10 +232,17 @@ describe Account do
 
     context 'student' do
       let(:student_attributes) { {:name => 'Yoda', :surname => '?', :buid => 'y', :email => 'yoda@student.com', :password => 'Foobar1', :password_confirmation => 'Foobar1', :role => Alfred::Admin::Account::STUDENT, :tag => Account.valid_tags.first} }
-      let(:student_attributes_fake) { {:name => 'Yoda', :surname => '?', :buid => 'y', :email => 'yoda@student.com', :password => 'foobar', :password_confirmation => 'foobar', :role => Alfred::Admin::Account::STUDENT, :tag => Account.valid_tags.first} }
+      let(:student_attributes_no_capital) { {:name => 'Yoda', :surname => '?', :buid => 'y', :email => 'yoda@student.com', :password => 'foobar1', :password_confirmation => 'foobar1', :role => Alfred::Admin::Account::STUDENT, :tag => Account.valid_tags.first} }
+      let(:student_attributes_no_numbers) { {:name => 'Yoda', :surname => '?', :buid => 'y', :email => 'yoda@student.com', :password => 'FOobar', :password_confirmation => 'FOobar', :role => Alfred::Admin::Account::STUDENT, :tag => Account.valid_tags.first} }
 
-      it "shouldn't allow a student to be created with a password without any capitals" do
-        student = Account.new(student_attributes_fake)
+      it "shouldn't allow a student to be created with a password without any capital letter" do
+        student = Account.new(student_attributes_no_capital)
+
+        student.should_not be_valid
+      end
+
+      it "shouldn't allow a student to be created with a password without any number" do
+        student = Account.new(student_attributes_no_numbers)
 
         student.should_not be_valid
       end
