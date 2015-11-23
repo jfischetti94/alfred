@@ -28,13 +28,18 @@ describe Correction do
 
   describe "creation" do
       before do
-        @correction = Correction.new(
-          :teacher => Factories::Account.teacher( "Yoda", "yoda@d.com"),
-          :solution => solution,
-          :public_comments => "public comment",
-          :private_comments => "private comment",
-          :grade => 9
-        )
+        # @correction = Correction.new(
+        #   :teacher => Factories::Account.teacher( "Yoda", "yoda@d.com"),
+        #   :solution => solution,
+        #   :public_comments => "public comment",
+        #   :private_comments => "private comment",
+        #   :grade => 9
+        # )
+        # @correction.save
+
+        @solution = Solution.new
+        @teacher = Factories::Account.teacher( "Yoda", "yoda@d.com")
+        @correction = Factories::Correction.correctsBy(@solution, @teacher)
         @correction.save
       end
 

@@ -192,7 +192,7 @@ describe Account do
 
   describe "create" do
     context 'admin' do
-      let(:admin_attributes) { {:name => 'admin', :surname => 'admin', :buid => 'a', :email => 'admin@admin.com', :password => 'foobar', :password_confirmation => 'foobar', :role => Alfred::Admin::Account::ADMIN} }
+      let(:admin_attributes) { {:name => 'admin', :surname => 'admin', :buid => 'a', :email => 'admin@admin.com', :password => 'Foobar1', :password_confirmation => 'Foobar1', :role => Alfred::Admin::Account::ADMIN} }
 
       it "should allow creating admin account without tag" do
         admin = Account.new(admin_attributes)
@@ -214,7 +214,7 @@ describe Account do
     end
 
     context 'teacher' do
-      let(:teacher_attributes) { {:name => 'teacher', :surname => 'teacher', :buid => 'a', :email => 'teacher@teacher.com', :password => 'foobar', :password_confirmation => 'foobar', :role => Alfred::Admin::Account::TEACHER} }
+      let(:teacher_attributes) { {:name => 'teacher', :surname => 'teacher', :buid => 'a', :email => 'teacher@teacher.com', :password => 'Foobar1', :password_confirmation => 'Foobar1', :role => Alfred::Admin::Account::TEACHER} }
 
       it "should associate with all courses" do
         course1 = Course.new(name: 'Course 1', active: true)
@@ -231,7 +231,14 @@ describe Account do
     end
 
     context 'student' do
-      let(:student_attributes) { {:name => 'Yoda', :surname => '?', :buid => 'y', :email => 'yoda@student.com', :password => 'foobar', :password_confirmation => 'foobar', :role => Alfred::Admin::Account::STUDENT, :tag => Account.valid_tags.first} }
+      let(:student_attributes) { {:name => 'Yoda', :surname => '?', :buid => 'y', :email => 'yoda@student.com', :password => 'Foobar1', :password_confirmation => 'Foobar1', :role => Alfred::Admin::Account::STUDENT, :tag => Account.valid_tags.first} }
+      let(:student_attributes_fake) { {:name => 'Yoda', :surname => '?', :buid => 'y', :email => 'yoda@student.com', :password => 'foobar', :password_confirmation => 'foobar', :role => Alfred::Admin::Account::STUDENT, :tag => Account.valid_tags.first} }
+
+      it "shouldn't allow a student to be created with a password without any capitals" do
+        student = Account.new(student_attributes_fake)
+
+        student.should_not be_valid
+      end
 
       it "should allow creating student with valid tag" do
         student = Account.new(student_attributes)
@@ -255,7 +262,7 @@ describe Account do
 
   describe 'update password' do
     let(:account) { Factories::Account.teacher }
-    let(:new_password) { 'my_new_password' }
+    let(:new_password) { 'My_new_password1' }
 
     it "should update password if other attributes updated" do
       account.password = new_password

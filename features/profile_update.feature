@@ -15,5 +15,5 @@ Feature: Profile update
   Scenario: Password update
     Given I am logged in as teacher
     When I go to "the profile page"
-    When I edit my profile with password "Password!" and password confirmation "Password!"
+    When I edit my profile with password "Password!1" and password confirmation "Password!1"
     Then I should see "actualizado correctamente"

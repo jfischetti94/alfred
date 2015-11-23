@@ -32,7 +32,7 @@ class Account
   validates_format_of        :role,     :with => /[A-Za-z]/
 
   validates_with_method :tag, :method => :is_valid_tag?
-  #validates_with_method :password, :method => :is_valid_password?
+  validates_with_method :password, :method => :is_valid_password?
 
   after :create do
     if self.role == ADMIN || self.role == TEACHER
@@ -58,27 +58,27 @@ class Account
     end
   end
 
-  # def is_valid_password?
-  #   lower = false
-  #   upper = false
-  #   num = false
-  #
-  #   @password.to_s.each_char { | c |
-  #     if c.match(/[a-z]/)
-  #       lower = true
-  #     elsif c.match(/[A-Z]/)
-  #       upper = true
-  #     elsif c.match(/[0-9]/)
-  #       num = true
-  #     end
-  #   }
-  #
-  #     if lower && upper && num
-  #       return true
-  #     end
-  #     errors.add(:password, "Debe incluir mayusculas, minusculas y numeros")
-  #     return false
-  # end
+   def is_valid_password?
+     lower = false
+     upper = false
+     num = false
+
+     @password.to_s.each_char { | c |
+       if c.match(/[a-z]/)
+         lower = true
+       elsif c.match(/[A-Z]/)
+         upper = true
+       elsif c.match(/[0-9]/)
+         num = true
+       end
+     }
+
+       if lower && upper && num
+         return true
+       end
+       errors.add(:password, "Debe incluir mayusculas, minusculas y numeros")
+       return false
+   end
 
   def is_valid_tag?
     return true unless self.is_student?

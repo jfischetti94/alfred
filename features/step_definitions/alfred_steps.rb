@@ -18,7 +18,7 @@ module WithinHelpers
   end
 
   def default_password
-    "Passw0rd!1"
+    "Passw0rd!"
   end
 
 end
@@ -102,6 +102,8 @@ When /^I edit my profile with name "(.*?)" and lastname "(.*?)" and tag "(.*?)"$
   fill_in(:account_name, :with => name)
   fill_in(:account_surname, :with => lastname)
   fill_in(:account_tag, :with => tag)
+  fill_in(:account_password, :with => default_password)
+  fill_in(:account_password_confirmation, :with => default_password)
   click_button 'Guardar'
 end
 
@@ -140,18 +142,22 @@ end
 Then(/^I should see "(.*?)" on "(.*?)" for user "(.*?)"$/) do |info, label, user_name|
   name = user_name.split(' ', 2)
   user = Account.all( :name => name[0], :surname => name[1] ).first
-    within("##{user.buid}") do
-      within("##{label}") do
+  #user = Factories::Account.teacher
+  #expect(user.buid).to eq "R"
+
+    within("#{user.buid}") do
+      within("#{label}") do
         page.should have_content info
       end
     end
 end
+
 And(/^I should receive a reset password email after clicking "(.*?)"$/) do |link_or_button_name|
-  Alfred::App.should_receive(:deliver).with(:notification, :password_has_been_reset, "Richard@someplace.com", "123123123")
+  Alfred::App.should_receive(:deliver).with(:notification, :password_has_been_reset, "Richard@someplace.com", "Password1")
 
   click_on link_or_button_name
 end
 
 And(/^I fill in password with the new one generated$/) do
-  fill_in "password", with: "123123123"
+  fill_in "password", with: "Password1"
 end
