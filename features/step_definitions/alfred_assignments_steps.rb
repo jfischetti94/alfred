@@ -211,3 +211,25 @@ def solution_type(type)
   end
   solution
 end
+
+Given /^there is a assignment already created$/ do
+  step 'I am logged in as teacher'
+  step 'I follow "Trabajos prácticos"'
+  step 'I follow "Nuevo"'
+  step "I fill required data for assignment entitled \"TP0\""
+end
+
+
+Given(/^I qualify the solution with "(.*?)"$/) do |qualification|
+  fill_in :correction_grade, :with => qualification
+end
+
+Then(/^I should see "(.*?)" for "(.*?)" at column Aprobados in table$/) do |content, assignment|
+  row_values = find('tr', text: assignment).text.split(' ')
+  row_values.at(2).should have_content(content)
+end
+
+Then(/^I should see "(.*?)" for "(.*?)" at column Desaprobados in table$/) do |content, assignment|
+  row_values = find('tr', text: assignment).text.split(' ')
+  row_values.at(3).should have_content(content)
+end

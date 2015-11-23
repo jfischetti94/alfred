@@ -7,6 +7,8 @@ $(document).ready(function() {
   // we build and load the metadata in Javascript
   editableGrid.load({ metadata: [
     { name: "Nombre", datatype: "string" },
+    { name: "Aprobados", datatype: "string" },
+    { name: "Desaprobados", datatype: "string" },
     { name: "Fecha Límite", datatype: "date", formattedDate: 'dd/mm/YYYY' },
     { name: "Acciones", datatype: "html", editable: false }
   ]});

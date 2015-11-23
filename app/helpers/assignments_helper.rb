@@ -4,21 +4,33 @@ Alfred::App.helpers do
     @assignment.errors.key?(form_field) && @assignment.errors[form_field].count > 0
   end
 
-  def submitted_pass_fail_for assignment
-    submitted = assignment.solutions.count
-    pass = 0
-    fail = 0
-    assignment.solutions.each do |solution|
-      if not solution.correction.nil?
-        if solution.correction.status == :correction_passed
-          pass += 1
-        end
-        if solution.correction.status == :correction_failed
-          fail += 1
-        end
+  def pass_for assignment
+    count = 0
+    in_progress = ''
+    @students.each do |student|
+      status = (student.status_for_assignment assignment).status
+      if status == :correction_passed
+        count += 1
+      end
+      if status == :correction_in_progress
+        in_progress = '?'
       end
     end
-    return "#{submitted}/#{pass}/#{fail}"
+    return "#{count}#{in_progress}"
   end
 
+  def fail_for assignment
+    count = 0
+    in_progress = ''
+    @students.each do |student|
+      status = (student.status_for_assignment assignment).status
+      if status == :correction_failed || status ==  :solution_pending
+        count += 1
+      end
+      if status == :correction_in_progress
+        in_progress = '?'
+      end
+    end
+    return "#{count}#{in_progress}"
+  end
 end
