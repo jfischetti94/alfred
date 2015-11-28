@@ -13,6 +13,12 @@ Feature: Student enrollement
     And   I log in as "Tom"
     Then  I should see "Mis trabajos prácticos"
 
+  @wip
+  Scenario: Account unsuccessfully created by captcha
+    Given I am on the home page
+    And   I follow "crear cuenta"
+    And   I enrole as student named "Tom" with invalid captcha
+    Then  I should see "El captcha ingresado es invalido"
 
   Scenario: Re-Enrollment
     Given I am on the home page

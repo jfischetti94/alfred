@@ -3,6 +3,8 @@ require 'spec_helper'
 # It is not a real controller.  It spec files encapsulates a variety of
 # tests for app resourses
 #
+Rack::Recaptcha.test_mode!
+
 describe "AppController" do
   let(:student_name)      { 'Carles' }
   let(:student_surname)   { 'Darwin' }

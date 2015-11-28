@@ -1,5 +1,7 @@
 module Alfred
   class App < Padrino::Application
+    use      Rack::Recaptcha, :public_key => '6Le3fBETAAAAAA-vH0VIV-AouD4IC_Dr_X6bFHLj', :private_key => '6Le3fBETAAAAAB37Y1WJ3ah_tuO5bf3BwpLU0-Sa'
+    helpers  Rack::Recaptcha::Helpers
     register Padrino::Rendering
     register Padrino::Mailer
     register Padrino::Helpers
@@ -176,13 +178,19 @@ module Alfred
     end
 
     post :register do
-      @account = Account.new_student(params[:account])
-      @account.courses << Course.active
-      if @account.save
-        flash[:success] = t(:account_created)
-        redirect('/login')
+      if recaptcha_valid?
+         @account = Account.new_student(params[:account])
+         @account.courses << Course.active
+         if @account.save
+           flash[:success] = t(:account_created)
+           redirect('/login')
+         else
+           flash.now[:error] = t(:account_creation_error)
+           render 'home/register'
+         end
       else
-        flash.now[:error] = t(:account_creation_error)
+        @account = Account.new
+        flash.now[:error] = "El captcha ingresado es invalido"
         render 'home/register'
       end
     end

@@ -38,6 +38,19 @@ Given /^the course with teacher and student enrolled$/ do
 end
 
 Given /^I enrole as student named "(.*?)"$/ do |student_name|
+  Rack::Recaptcha.test_mode!
+  fill_in(:account_name, :with => student_name)
+  fill_in(:account_surname, :with => student_name + "Jr.")
+  fill_in(:account_buid, :with => "77666" )
+  fill_in(:account_email, :with => student_name.downcase + "@someplace.com" )
+  fill_in(:account_tag, :with => "mie" )
+  fill_in(:account_password, :with => default_password )
+  fill_in(:account_password_confirmation, :with => default_password )
+  click_button( "crear cuenta" )
+end
+
+Given /^I enrole as student named "(.*?)"$ with invalid captcha/ do |student_name|
+  Rack::Recaptcha.test_mode! :return => false
   fill_in(:account_name, :with => student_name)
   fill_in(:account_surname, :with => student_name + "Jr.")
   fill_in(:account_buid, :with => "77666" )

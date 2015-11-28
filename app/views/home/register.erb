@@ -1,3 +1,7 @@
+<head>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+
 <h1><%= t(:registration).capitalize %></h1>
 <hr/>
   <% form_for :account, url(:register), :class => 'form-horizontal' do |f| %>
@@ -57,6 +61,10 @@
     <%= f.password_field :password_confirmation, :class => 'input-xlarge input-with-feedback' %>
     <span class='help-inline'><%= error ? f.error_message_on(:password_confirmation) : "" %></span>
   </div>
+</fieldset>
+
+<fieldset style="margin-left: 175px">
+  <script type="text/javascript" src='https://www.google.com/recaptcha/api/challenge?k=6Le3fBETAAAAAA-vH0VIV-AouD4IC_Dr_X6bFHLj'></script>
 </fieldset>
 
 <div class="form-actions">
