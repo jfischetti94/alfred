@@ -49,7 +49,7 @@ Given /^I enrole as student named "(.*?)"$/ do |student_name|
   click_button( "crear cuenta" )
 end
 
-Given /^I enrole as student named "(.*?)"$ with invalid captcha/ do |student_name|
+Given(/^I enrole as student named "(.*?)" with invalid captcha$/) do |student_name|
   Rack::Recaptcha.test_mode! :return => false
   fill_in(:account_name, :with => student_name)
   fill_in(:account_surname, :with => student_name + "Jr.")
