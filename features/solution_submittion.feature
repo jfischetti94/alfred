@@ -6,7 +6,7 @@ Feature: Solution submission
     Given the course with teacher and student enrolled 
     And there is a bunch of assignment already created
     And the student "Richard"
-    
+
   Scenario: Main flow with commment
     Given I am logged in as student 
     And   I follow "Trabajos prácticos"
@@ -15,19 +15,19 @@ Feature: Solution submission
     And   I upload the solution's file for "TP1"
     Then  I should see "Solution creado exitosamente"
     Then  solution should have comment: "This is my comment for this solution"
-  
+
   Scenario: Comment empty
     Given a student submit solution for "TP1" with comment ""
     And   a teacher assigned himself as on-charge of correction
     When  as a teacher I go to correct last correction
     Then  I should see no comment
-    
+
   Scenario: Commenting
     Given a student submit solution for "TP1" with comment "This is my comment for this solution"
     And   a teacher assigned himself as on-charge of correction
     When  as a teacher I go to correct last correction
     Then  I should see comment: "This is my comment for this solution"
-  
+
   Scenario: Comment with special characters
     Given a student submit solution for "TP1" with comment "ÁÉÍÓÚáéíóúÑñäëïöü"
     And   a teacher assigned himself as on-charge of correction
@@ -81,7 +81,7 @@ Feature: Solution submission
     Then  I see save is invalid because no link was provided
 
   Scenario: Submitting when blocking deadline has passed
-    Given there is a blocking assignment "TP1" with due date "22/10/2013" already created
+    Given there is a blocking assignment "TP1" with due date "2014-11-29" with "17" hour of the day already created
     And   I am logged in as student 
     And   I follow "Trabajos prácticos"
     And   I click submit solution for "TP1"
@@ -89,7 +89,7 @@ Feature: Solution submission
     Then  I should see "La fecha de entrega ha caducado"
 
   Scenario: Submitting when blocking deadline has not passed
-    Given there is a blocking assignment "TP1" with due date "01/01/3000" already created
+    Given there is a blocking assignment "TP1" with due date "3000-11-28" with "17" hour of the day already created
     And   I am logged in as student 
     And   I follow "Trabajos prácticos"
     And   I click submit solution for "TP1"

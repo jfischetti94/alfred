@@ -1,5 +1,7 @@
 #encoding: utf-8
 #
+require 'active_support/all'
+
 module AssignmentHelpers
   # Responses DOM object
   def as_teacher_for_assignment( assignment_name, action )
@@ -51,6 +53,26 @@ When /^I fill data for (non )?blocking assignment "(.*?)" due to "(.*?)" to be d
       step 'I click "Guardar y continuar"'
     end
   end
+end
+
+Given(/^I fill required data for non blocking assignment "(.*?)" due to "(.*?)" with "(.*?)" hours$/) do |assignment_name, date, plus_hours|
+  step "Fill data for non blocking assignment \"#{assignment_name}\" due to \"#{date}\" with \"#{plus_hours}\" to be delivered as \"file\""
+end
+
+When /^Fill data for non blocking assignment "(.*?)" due to "(.*?)" with "(.*?)" to be delivered as "(.*?)"?$/ do |assignment_name, date, hours, solution_type|
+  @assignment_date = DateTime.new(Time.now.year, Time.now.month, Time.now.day, Time.now.hour) #date == 'today' ? Date.today : date
+   type = solution_type(solution_type)
+   VCR.use_cassette("cassette_assignment_#{assignment_name.downcase}") do
+     with_scope( '.form-horizontal' ) do
+       fill_in( :assignment_name,        :with => assignment_name)
+       fill_in( :assignment_deadline,    :with => @assignment_date)
+       select((@assignment_date.hour.to_i + hours.to_i), from: 'hour_deadline_id' )
+       select(solution_type)
+       fill_in( :assignment_test_script, :with => "#!/bin/bash\necho $?")
+       attach_file(:assignment_file, address_to("#{assignment_name.downcase}.zip"))
+       step 'I click "Guardar y continuar"'
+     end
+   end
 end
 
 When /^I click edit button edit on "(.*?)"$/ do |assignment_name|
@@ -123,10 +145,12 @@ Given /^there is a bunch of assignment already created$/ do
   step "I fill data for non blocking assignment \"TP2\" due to \"#{@assignment_date}\" to be delivered as \"link\""
 end
 
-Given /^there is a blocking assignment "(.*?)" with due date "(.*?)" already created$/ do |assignment_name, date|
+Given /^there is a blocking assignment "(.*?)" with due date "(.*?)" with "(.*?)" hour of the day already created$/ do |assignment_name, date, hour|
   assignment = Assignment.all.select{|assignment| assignment.name == assignment_name}.first
   assignment.is_blocking = true
-  assignment.deadline = date
+  aux_date = date.to_s.split('-')
+  due_date = DateTime.new(aux_date[0].to_i, aux_date[1].to_i, aux_date[2].to_i, hour.to_i)
+  assignment.deadline = due_date
   assignment.save
 end
 
@@ -232,4 +256,8 @@ end
 Then(/^I should see "(.*?)" for "(.*?)" at column Desaprobados in table$/) do |content, assignment|
   row_values = find('tr', text: assignment).text.split(' ')
   row_values.at(3).should have_content(content)
+end
+
+Then(/^I should see that date is correct$/) do
+  pending # express the regexp above with the code you wish you had
 end

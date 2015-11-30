@@ -1,3 +1,5 @@
+require 'active_support/all'
+
 Alfred::App.controllers :assignments do
 
   get :index, :parent => :courses do
@@ -45,32 +47,34 @@ Alfred::App.controllers :assignments do
 
   # TODO: Refactor code to remove duplication (Trello#37)
   post :create do
+    new_hour = params[:hour_deadline]
     errors = []
     Assignment.transaction do |trx|
       begin
         @assignment = Assignment.new(params[:assignment].merge({ :course_id => current_course.id }))
-        if @assignment.deadline == ''
-          errors << t('assignments.errors.deadline_not_chosen')
-        elsif @assignment.deadline <= Date.today
-            errors << t('assignments.errors.deadline_passed')
-        elsif @assignment.save
-          if params[:assignment_file]
-            file_io = params[:assignment_file]['file']
-            @assignment_file = AssignmentFile.new(:assignment => @assignment, :name => file_io[:filename])
-            storage_gateway = Storage::StorageGateways.get_gateway
-            storage_gateway.upload(@assignment_file.path, file_io[:tempfile])
+        @assignment.deadline = @assignment.deadline.change({hour: new_hour.to_i})
+         if @assignment.deadline == ''
+           errors << t('assignments.errors.deadline_not_chosen')
+         elsif @assignment.deadline.to_date < Date.today || (@assignment.deadline.to_date == Date.today && @assignment.deadline.hour <= DateTime.now.hour)
+             errors << t('assignments.errors.deadline_passed')
+         elsif @assignment.save
+           if params[:assignment_file]
+             file_io = params[:assignment_file]['file']
+             @assignment_file = AssignmentFile.new(:assignment => @assignment, :name => file_io[:filename])
+             storage_gateway = Storage::StorageGateways.get_gateway
+             storage_gateway.upload(@assignment_file.path, file_io[:tempfile])
 
-            if !@assignment_file.save
-              errors << @assignment_file.errors
-            end
+             if !@assignment_file.save
+               errors << @assignment_file.errors
+             end
 
-          end
-          @title = pat(:create_title, :model => "assignment #{@assignment.id}")
-          flash[:success] = pat(:create_success, :model => 'Assignment')
-          params[:save_and_continue] ? redirect(url(:assignments, :index, :course_id => current_course.id)) : redirect(url(:assignments, :edit, :id => @assignment.id, :course_id => current_course.id))
-        else
-          errors << @assignment.errors
-        end
+           end
+           @title = pat(:create_title, :model => "assignment #{@assignment.id}")
+           flash[:success] = pat(:create_success, :model => 'Assignment')
+           params[:save_and_continue] ? redirect(url(:assignments, :index, :course_id => current_course.id)) : redirect(url(:assignments, :edit, :id => @assignment.id, :course_id => current_course.id))
+         else
+           errors << @assignment.errors
+         end
       rescue DataObjects::Error
         trx.rollback
       end

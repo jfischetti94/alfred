@@ -12,7 +12,7 @@ Feature: Assigment creation
     And   I follow "Trabajos prácticos"
     And   I follow "Nuevo"
     And   I fill required data for assignment entitled "TP0"
-    Then  I should see "creado exitosamente" 
+    Then  I should see "creado exitosamente"
 
   Scenario: Choosing old date as due date
     Given I am logged in as teacher
@@ -20,14 +20,29 @@ Feature: Assigment creation
     And   I follow "Nuevo"
     And   I fill required data for non blocking assignment "TP0" due to "10/09/2014"
     Then  I should see that date is incorrect
-     
+
   Scenario: Choosing today as due date
     Given I am logged in as teacher
     And   I follow "Trabajos prácticos"
     And   I follow "Nuevo"
     And   I fill required data for non blocking assignment "TP0" due to "today"
     Then  I should see that date is incorrect
-    
+
+  Scenario: Choosing today as due date, but with 5 hours more than the current one
+    Given I am logged in as teacher
+    And   I follow "Trabajos prácticos"
+    And   I follow "Nuevo"
+    And   I fill required data for non blocking assignment "TP0" due to "today" with "01" hours
+    Then  I should see that it was successfully created
+
+  @wip
+  Scenario: Choosing today as due date, but with 5 hours more than the current one
+    Given I am logged in as teacher
+    And   I follow "Trabajos prácticos"
+    And   I follow "Nuevo"
+    And   I fill required data for non blocking assignment "TP0" due to "today" with "00" hours
+    Then  I should see that date is incorrect
+
   Scenario: Choosing to have a file attached to solutions of assignment
     Given I am logged in as teacher
     And   I follow "Trabajos prácticos"
@@ -35,7 +50,7 @@ Feature: Assigment creation
     When  I fill required data for assignment "TP0" to be delivered as "file"
     Then  I should see that it was successfully created
     And   assignment created should have "file" set as solution type
-  
+
   Scenario: Choosing to have a link attached to solutions of assignment
     Given I am logged in as teacher
     And   I follow "Trabajos prácticos"
