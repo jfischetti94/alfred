@@ -12,7 +12,7 @@ Alfred::App.helpers do
       if status == :correction_passed
         count += 1
       end
-      if status == :correction_in_progress
+      if status == :correction_in_progress || status == :correction_pending
         in_progress = '?'
       end
     end
@@ -27,7 +27,7 @@ Alfred::App.helpers do
       if status == :correction_failed || status ==  :solution_pending
         count += 1
       end
-      if status == :correction_in_progress
+      if status == :correction_in_progress || status == :correction_pending
         in_progress = '?'
       end
     end

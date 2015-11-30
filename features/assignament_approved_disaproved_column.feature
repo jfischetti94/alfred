@@ -53,3 +53,10 @@ Feature: Assignment approved/disapproved column
     When I follow "Trabajos prácticos"
     Then I should see "0?" for "TP1" at column Aprobados in table
     And  I should see "0?" for "TP1" at column Desaprobados in table
+
+  Scenario: assignment solutions submitted and and no corrector assigned
+    Given there are solutions submitted by students
+    And  I am logged in as teacher 
+    When I follow "Trabajos prácticos"
+    Then I should see "0?" for "TP1" at column Aprobados in table
+    And  I should see "0?" for "TP1" at column Desaprobados in table
