@@ -28,7 +28,7 @@ Feature: Assigment creation
     And   I fill required data for non blocking assignment "TP0" due to "today"
     Then  I should see that date is incorrect
 
-  Scenario: Choosing today as due date, but with 5 hours more than the current one
+  Scenario: Choosing today as due date, with 1 hour more than the current one
     Given I am logged in as teacher
     And   I follow "Trabajos prácticos"
     And   I follow "Nuevo"
@@ -36,7 +36,7 @@ Feature: Assigment creation
     Then  I should see that it was successfully created
 
   @wip
-  Scenario: Choosing today as due date, but with 5 hours more than the current one
+  Scenario: Choosing today as due date, but with no hours more than the current one
     Given I am logged in as teacher
     And   I follow "Trabajos prácticos"
     And   I follow "Nuevo"
