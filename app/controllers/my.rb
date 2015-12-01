@@ -7,7 +7,11 @@ Alfred::App.controllers :my do
   end
   
   define_method :is_blocked_by_date? do |assignment|
-    assignment.is_blocking && assignment.deadline < Date.today
+    if assignment.deadline.to_date == Date.today
+      return assignment.deadline.hour < DateTime.now.hour
+    else
+      return assignment.is_blocking && assignment.deadline.to_date < Date.today
+    end
   end
 
   get :assigments, :parent => :courses do

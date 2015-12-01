@@ -6,7 +6,7 @@ Feature: Solution submission
     Given the course with teacher and student enrolled 
     And there is a bunch of assignment already created
     And the student "Richard"
-
+@wip
   Scenario: Main flow with commment
     Given I am logged in as student 
     And   I follow "Trabajos prácticos"
@@ -15,25 +15,25 @@ Feature: Solution submission
     And   I upload the solution's file for "TP1"
     Then  I should see "Solution creado exitosamente"
     Then  solution should have comment: "This is my comment for this solution"
-
+@wip
   Scenario: Comment empty
     Given a student submit solution for "TP1" with comment ""
     And   a teacher assigned himself as on-charge of correction
     When  as a teacher I go to correct last correction
     Then  I should see no comment
-
+@wip
   Scenario: Commenting
     Given a student submit solution for "TP1" with comment "This is my comment for this solution"
     And   a teacher assigned himself as on-charge of correction
     When  as a teacher I go to correct last correction
     Then  I should see comment: "This is my comment for this solution"
-
+@wip
   Scenario: Comment with special characters
     Given a student submit solution for "TP1" with comment "ÁÉÍÓÚáéíóúÑñäëïöü"
     And   a teacher assigned himself as on-charge of correction
     When  as a teacher I go to correct last correction
     Then  I should see comment: "ÁÉÍÓÚáéíóúÑñäëïöü"
-
+@wip
   Scenario: Comment not dissapearing when save is invalid
     Given I am logged in as student 
     And   I follow "Trabajos prácticos"
@@ -42,7 +42,7 @@ Feature: Solution submission
     When  I click save button
     And   I see save is invalid because no file was saved
     Then  I should see comment: "This is my comment for this solution"
-
+@wip
     Scenario: Solution type: file - solution success
     Given I am logged in as student 
     And   I follow "Trabajos prácticos"
@@ -51,7 +51,7 @@ Feature: Solution submission
     And   I do not see there is a field to write a link 
     When  I upload the solution's file for "TP1"
     Then  I should see solution was successfully created
-
+@wip
   Scenario: Solution type: file - solution fail
     Given I am logged in as student 
     And   I follow "Trabajos prácticos"
@@ -60,7 +60,7 @@ Feature: Solution submission
     And   I do not see there is a field to write a link 
     When  I click save button
     Then  I see save is invalid because no file was saved
-
+@wip
   Scenario: Solution type: link - solution success
     Given I am logged in as student 
     And   I follow "Trabajos prácticos"
@@ -70,7 +70,7 @@ Feature: Solution submission
     When  I fill in link to solution
     And   I click save button
     Then  I should see solution was successfully created
-
+@wip
   Scenario: Solution type: link - solution fail
     Given I am logged in as student 
     And   I follow "Trabajos prácticos"
@@ -82,12 +82,21 @@ Feature: Solution submission
 
   Scenario: Submitting when blocking deadline has passed
     Given there is a blocking assignment "TP1" with due date "2014-11-29" with "17" hour of the day already created
-    And   I am logged in as student 
+    And   I am logged in as student
     And   I follow "Trabajos prácticos"
     And   I click submit solution for "TP1"
     And   I upload the solution's file for "TP1"
     Then  I should see "La fecha de entrega ha caducado"
 
+Scenario: Submitting when blocking deadline has passed for two hours
+    Given there is a blocking assignment "TP1" with due date today two hours ago
+    And   I am logged in as student
+    And   I follow "Trabajos prácticos"
+    And   I click submit solution for "TP1"
+    And   I upload the solution's file for "TP1"
+    Then  I should see "La fecha de entrega ha caducado"
+
+@wip
   Scenario: Submitting when blocking deadline has not passed
     Given there is a blocking assignment "TP1" with due date "3000-11-28" with "17" hour of the day already created
     And   I am logged in as student 
