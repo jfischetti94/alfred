@@ -5,20 +5,20 @@ Feature: Students list
 
   Scenario: Lower amount of elements to the size of page
     Given the course with teacher and 2 students
-      And I am logged in as teacher
-    When I follow "Alumnos"
-    Then I see 2 elements
+    And   I am logged in as teacher
+    When  I follow "Alumnos"
+    Then  I see 2 elements
 
-@wip
+  @wip
   Scenario: Greater amount of elements to the size of page
     Given the course with teacher and 7 students
-      And I am logged in as teacher
-    When I follow "Alumnos"
-    Then I see 5 elements    
+    And   I am logged in as teacher
+    When  I follow "Alumnos"
+    Then  I see 5 elements
 
   Scenario: No elements
     Given the course "2013-1"
-      And the teacher "John"
-      And I am logged in as teacher
-    When I follow "Alumnos"
-    Then I see 0 elements
+    And   the teacher "John"
+    And   I am logged in as teacher
+    When  I follow "Alumnos"
+    Then  I see 0 elements
