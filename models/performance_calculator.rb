@@ -34,8 +34,7 @@ class PerformanceCalculator
   end
 
   def last_solution(solutions_list)
-    solution = Solution.new
-    solution.created_at = DateTime.new(Date.today.year.to_i - 300)
+    solution = solutions_list.first
 
     solutions_list.each do | sol |
       if sol.created_at > solution.created_at

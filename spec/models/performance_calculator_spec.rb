@@ -91,16 +91,16 @@ describe PerformanceCalculator do
       expect(final_solution.link).to eq "www.maps.com.ar"
     end
 
-    # it 'should bring me the latest solution for each assignment' do
-    #   solution1_assignment1
-    #   solution2_assignment1
-    #   solution3_assignment2
-    #
-    #   solution_list = calculator.get_last_solution([assignment1, assignment2])
-    #
-    #   expect(solution_list[0].link).to eq "www.taringa.com.ar"
-    #   expect(solution_list[1].link).to eq "www.maps.com.ar"
-    # end
+    it 'should bring me the latest solution for each assignment' do
+      solution1_assignment1
+      solution2_assignment1
+      solution3_assignment2
+
+      solution_list = calculator.get_last_solution([assignment1, assignment2])
+
+      expect(solution_list[0].link).to eq "www.taringa.com.ar"
+      expect(solution_list[1].link).to eq "www.maps.com.ar"
+    end
 
   end
 
