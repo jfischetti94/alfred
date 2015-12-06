@@ -76,9 +76,13 @@ class PerformanceCalculator
   end
 
   def student_status(average)
-    status_dictionary = {0..5 => "ANDA PERFECTO"}
-
-    return status_dictionary(average)
+    case average
+      when 0..4.9 then "Desastre"
+      when 5..6.9 then "Pobre"
+      when 7..8.9 then "Buena"
+      when 9..10  then "Excelente"
+      else ""
+    end
   end
 
 end

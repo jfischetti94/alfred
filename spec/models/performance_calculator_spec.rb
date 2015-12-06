@@ -57,49 +57,38 @@ describe PerformanceCalculator do
     Alfred::App::Correction.create( :created_at => Date.today, :grade => grade, :teacher => teacher, :solution => solution )
   end
 
-  it 'should ELIMINAR PORQUE ES TEMPORAL' do
-
-    puts calculator.student_status(3)
-
-    # solution1 = solution1_assignment1
-    # solution2 = solution2_assignment1
-    # solution3 = solution3_assignment2
-    # correction_solution1(solution1, 7)
-    # correction_solution2(solution2, 8)
-    # correction_solution3(solution3, 10)
-    #
-    # corrections = Correction.all()
-    #
-    # puts student.id
-    # puts teacher.id
-    # puts assignment1.id
-    # puts assignment2.id
-    # puts corrections[0].solution.link
-    # puts corrections[1].solution.link
-    # puts corrections[2].solution.link
+  def student_has_corrections_with(grade1, grade2, grade3)
+    solution1 = solution1_assignment1
+    solution2 = solution2_assignment1
+    solution3 = solution3_assignment2
+    correction_solution1(solution1, grade1)
+    correction_solution1(solution2, grade2)
+    correction_solution1(solution3, grade3)
   end
 
-=begin
-  it 'When a student approves all works with 9 or more then the performance is "Excelente"' do
-    studentHasCorrectionsWith(9,9)
-    expect( calculator.performance_for(student,course) ).to eq "Excelente"
-  end
+  context 'When I want to know the performance of a student' do
 
-  it 'When a student approves all works with 7 or more to 9 then the performance is "Buena"' do
-    studentHasCorrectionsWith(7,8)
-    expect( calculator.performance_for(student,course) ).to eq "Buena"
-  end
+    it 'When a student approves all works with 9 or more then the performance is "Excelente"' do
+      student_has_corrections_with(9, 9, 10)
+      expect( calculator.performance_for(student, course) ).to eq "Excelente"
+    end
 
-  it 'When a student works average is lower than 7 to 5 then the performance is "Pobre"' do
-    studentHasCorrectionsWith(6,6)
-    expect( calculator.performance_for(student,course) ).to eq "Pobre"
-  end
+    it 'When a student approves all works with 7 or more to 9 then the performance is "Buena"' do
+      student_has_corrections_with(7, 8, 6)
+      expect( calculator.performance_for(student, course) ).to eq "Buena"
+    end
 
-  if 'When a student works average is lower than 5 then the performance is "Desastre"' do
-    studentHasCorrectionsWith(4,2)
-    expect( calculator.performance_for(student,course) ).to eq "Desastre"
+    it 'When a student works average is lower than 7 to 5 then the performance is "Pobre"' do
+      student_has_corrections_with(6, 6, 5)
+      expect( calculator.performance_for(student, course) ).to eq "Pobre"
+    end
+
+    it 'When a student works average is lower than 5 then the performance is "Desastre"' do
+      student_has_corrections_with(4, 2, 3)
+      expect( calculator.performance_for(student, course) ).to eq "Desastre"
+    end
+
   end
-=end
 
   context 'When I want to obtain the average of a student' do
 
