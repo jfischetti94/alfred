@@ -16,8 +16,8 @@ describe PerformanceCalculator do
     solution.link = "www.google.com.ar"
     creation_date = DateTime.new((Date.today.year.to_i - 2), Date.today.month, Date.today.day)
     solution.created_at = creation_date
-    solution.account_id = 2
-    solution.assignment_id = 1
+    solution.account = student
+    solution.assignment = assignment1
 
     solution.save
     solution
@@ -27,8 +27,8 @@ describe PerformanceCalculator do
     solution = Alfred::Admin::Solution.new
     solution.link = "www.taringa.com.ar"
     solution.created_at = DateTime.now
-    solution.account_id = 2
-    solution.assignment_id = 1
+    solution.account = student
+    solution.assignment = assignment1
 
     solution.save
     solution
@@ -38,8 +38,8 @@ describe PerformanceCalculator do
     solution = Alfred::Admin::Solution.new
     solution.link = "www.maps.com.ar"
     solution.created_at = DateTime.now
-    solution.account_id = 2
-    solution.assignment_id = 2
+    solution.account = student
+    solution.assignment = assignment2
 
     solution.save
     solution
@@ -58,8 +58,8 @@ describe PerformanceCalculator do
   end
 
   it 'should ELIMINAR PORQUE ES TEMPORAL' do
-    arr = [6,3,2,7,7,32,5]
-    puts ((arr.inject(:+)).to_f / arr.size)
+
+    puts calculator.student_status(3)
 
     # solution1 = solution1_assignment1
     # solution2 = solution2_assignment1
@@ -162,7 +162,7 @@ describe PerformanceCalculator do
       solution2_assignment1
       solution3_assignment2
 
-      solution_list = calculator.get_last_solution([assignment1, assignment2])
+      solution_list = calculator.get_last_solution([assignment1, assignment2], student)
 
       expect(solution_list[0].link).to eq "www.taringa.com.ar"
       expect(solution_list[1].link).to eq "www.maps.com.ar"

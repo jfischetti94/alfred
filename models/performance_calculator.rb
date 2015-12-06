@@ -5,7 +5,7 @@ class PerformanceCalculator
     assignments_list = Assignment.find_by_course(course)
 
     # get LAST SOLUTION for each assignment, if there is any for each
-    solutions_list = get_last_solution(assignments_list)
+    solutions_list = get_last_solution(assignments_list, student)
 
     # Get a list of grades, corresponding to each correction for those solutions. If a correction doesn't exists, then the grade is 0
     grades_list = get_corrections_grades(solutions_list)
@@ -15,11 +15,11 @@ class PerformanceCalculator
     student_status(student_average)
   end
 
-  def get_last_solution(assignment_list)
+  def get_last_solution(assignment_list, student)
     result_list = []
 
     assignment_list.each do | assig |
-      solutions_for_assignment = Solution.all(:assignment => assig)
+      solutions_for_assignment = Solution.all(:assignment => assig, :account_id => student.id)
       unless solutions_for_assignment.empty?
         solution = last_solution(solutions_for_assignment)
         result_list << solution
@@ -76,7 +76,9 @@ class PerformanceCalculator
   end
 
   def student_status(average)
-    nil
+    status_dictionary = {0..5 => "ANDA PERFECTO"}
+
+    return status_dictionary(average)
   end
 
 end
