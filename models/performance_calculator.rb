@@ -59,9 +59,9 @@ class PerformanceCalculator
   def get_average(grade_list, number_of_assignments)
     if grade_list.size < number_of_assignments
       new_grades_list = complete_grade_list(grade_list, (number_of_assignments - grade_list.size))
-      (new_grades_list.inject(:+)).to_f / number_of_assignments.size
+      (new_grades_list.inject(:+)).to_f / number_of_assignments
     else
-      (grade_list.inject(:+)).to_f / number_of_assignments.size
+      (grade_list.inject(:+)).to_f / number_of_assignments
     end
   end
 

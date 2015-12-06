@@ -111,6 +111,17 @@ describe PerformanceCalculator do
       expect(list_complete).to eq [4,5,7,0,0]
     end
 
+    it 'should give me 5 and 3 as average' do
+      list = [5,5,5,5,5]
+      incomplete_list = [5,5,5]
+
+      average1 = calculator.get_average(list, 5)
+      average2 = calculator.get_average(incomplete_list, 5)
+
+      expect(average1).to eq 5
+      expect(average2).to eq 3
+    end
+
   end
 
   context 'When I want the corrections for some solutions' do
