@@ -5,52 +5,56 @@ require File.expand_path(File.dirname(__FILE__) + "/../../models/performance_cal
 describe PerformanceCalculator do
 
   let(:calculator) { PerformanceCalculator.new }
-  let (:student) { Account.new(:email => "student@test.com", :role => "student", :buid => "?") }
-  let (:course) { Course.new(:name => "Curso1", :active => true)}
+  let(:course)     { Factories::Course.algorithm }
+  let (:student)   { Factories::Account.student }
 
-  def assignments
-    assignment1 = Assignment.new(
-        :course => course,
-        :id => 123,
-        :name => 'TP1')
-    assignment2 = Assignment.new(
-        :course => course,
-        :id => 456,
-        :name => 'TP2')
-    assignment1.save
-    assignment2.save
+  let(:assignment1) { Factories::Assignment.name("primer_tp", course) }
+  let(:assignment2) { Factories::Assignment.name("segundo_tp", course) }
+
+  def solution1_assignment1
+    solution = Alfred::Admin::Solution.new
+    solution.link = "www.google.com.ar"
+    creation_date = DateTime.new((Date.today.year.to_i - 2), Date.today.month, Date.today.day)
+    solution.created_at = creation_date
+    solution.account_id = 1
+    solution.assignment_id = 1
+
+    solution.save
+    solution
   end
 
-  def solutions
-    solution1 = Solution.new(:assignment => assignment1, :account => student)
-    solution2 = Solution.new(:assignment => assignment2, :account => student)
-    solution1.save
-    solution2.save
+  def solution2_assignment1
+    solution = Alfred::Admin::Solution.new
+    solution.link = "www.taringa.com.ar"
+    solution.created_at = DateTime.now
+    solution.account_id = 1
+    solution.assignment_id = 1
+
+    solution.save
+    solution
   end
 
-  def corrections(grade1, grade2)
-    correction1 = Correction.new(
-        :teacher => Factories::Account.teacher( "Yoda", "yoda@d.com"),
-        :solution => solution1,
-        :public_comments => "public comment",
-        :private_comments => "private comment",
-        :grade => grade1
-    )
-    correction2 = Correction.new(
-        :teacher => Factories::Account.teacher( "Yoda", "yoda@d.com"),
-        :solution => solution2,
-        :public_comments => "public comment",
-        :private_comments => "private comment",
-        :grade => grade2
-    )
-    correction1.save
-    correction2.save
+  def solution3_assignment2
+    solution = Alfred::Admin::Solution.new
+    solution.link = "www.maps.com.ar"
+    solution.created_at = DateTime.now
+    solution.account_id = 1
+    solution.assignment_id = 2
+
+    solution.save
+    solution
   end
 
-  def studentHasCorrectionsWith(grade1, grade2)
-    assignments
-    solutions
-    corrections(grade1, grade2)
+  it 'should funcar' do
+    solution1_assignment1
+    solution2_assignment1
+    solution3_assignment2
+
+    solutions = Solution.all(:assignment => assignment1)
+
+    first = solutions[0].created_at
+    second = solutions[1].created_at
+    puts first < second
   end
 
 =begin
@@ -74,17 +78,31 @@ describe PerformanceCalculator do
   end
 =end
 
-  context 'When I filter a list' do
-    it 'should bring me all the ids of the elements of the list' do
-      assignments
-      list = Assignment.all
-      id_list = calculator.filter_ids(list)
+  context 'When I want the latest solution' do
 
-      expect(id_list).to eq [123, 456]
+    it 'should obtain the solution with older date' do
+      solution1 = solution1_assignment1
+      solution2 = solution2_assignment1
+      solution3 = solution3_assignment2
+      solution3.created_at = DateTime.new(Date.today.year.to_i + 10)
+
+      final_solution = calculator.last_solution([solution1, solution2, solution3])
+
+      expect(final_solution.link).to eq "www.maps.com.ar"
     end
+
+    # it 'should bring me the latest solution for each assignment' do
+    #   solution1_assignment1
+    #   solution2_assignment1
+    #   solution3_assignment2
+    #
+    #   solution_list = calculator.get_last_solution([assignment1, assignment2])
+    #
+    #   expect(solution_list[0].link).to eq "www.taringa.com.ar"
+    #   expect(solution_list[1].link).to eq "www.maps.com.ar"
+    # end
+
   end
-
-
 
 
 
