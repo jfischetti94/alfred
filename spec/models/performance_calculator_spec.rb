@@ -58,22 +58,25 @@ describe PerformanceCalculator do
   end
 
   it 'should ELIMINAR PORQUE ES TEMPORAL' do
-    solution1 = solution1_assignment1
-    solution2 = solution2_assignment1
-    solution3 = solution3_assignment2
-    correction_solution1(solution1, 7)
-    correction_solution2(solution2, 8)
-    correction_solution3(solution3, 10)
+    arr = [6,3,2,7,7,32,5]
+    puts ((arr.inject(:+)).to_f / arr.size)
 
-    corrections = Correction.all()
-
-    puts student.id
-    puts teacher.id
-    puts assignment1.id
-    puts assignment2.id
-    puts corrections[0].solution.link
-    puts corrections[1].solution.link
-    puts corrections[2].solution.link
+    # solution1 = solution1_assignment1
+    # solution2 = solution2_assignment1
+    # solution3 = solution3_assignment2
+    # correction_solution1(solution1, 7)
+    # correction_solution2(solution2, 8)
+    # correction_solution3(solution3, 10)
+    #
+    # corrections = Correction.all()
+    #
+    # puts student.id
+    # puts teacher.id
+    # puts assignment1.id
+    # puts assignment2.id
+    # puts corrections[0].solution.link
+    # puts corrections[1].solution.link
+    # puts corrections[2].solution.link
   end
 
 =begin
@@ -98,6 +101,18 @@ describe PerformanceCalculator do
   end
 =end
 
+  context 'When I want to obtain the average of a student' do
+
+    it 'should complete the grades list with two 0' do
+      list = [4,5,7]
+
+      list_complete = calculator.complete_grade_list(list, 2)
+
+      expect(list_complete).to eq [4,5,7,0,0]
+    end
+
+  end
+
   context 'When I want the corrections for some solutions' do
 
     it 'should bring me a correction list [8,0,4] first, and then [8,10,4]' do
@@ -107,12 +122,12 @@ describe PerformanceCalculator do
       correction_solution1(solution1, 8)
       correction_solution3(solution3, 4)
 
-      corrections = calculator.get_corrections([solution1, solution2, solution3])
+      corrections = calculator.get_corrections_grades([solution1, solution2, solution3])
 
       expect(corrections).to eq [8.0, 0, 4.0]
 
       correction_solution2(solution2, 10)
-      corrections = calculator.get_corrections([solution1, solution2, solution3])
+      corrections = calculator.get_corrections_grades([solution1, solution2, solution3])
       expect(corrections).to eq [8.0, 10.0, 4.0]
     end
 

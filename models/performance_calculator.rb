@@ -8,11 +8,11 @@ class PerformanceCalculator
     solutions_list = get_last_solution(assignments_list)
 
     # Get a list of grades, corresponding to each correction for those solutions. If a correction doesn't exists, then the grade is 0
-    corrections_list = get_corrections(solutions_list)
+    grades_list = get_corrections_grades(solutions_list)
 
-    # Promediar las correcciones, e indicar el estado segun promedio
-    total_assignments = assignments_list.size
-
+    # Obtain the average of the student, and return the status of himself
+    student_average = get_average(grades_list, assignments_list.size)
+    student_status(student_average)
   end
 
   def get_last_solution(assignment_list)
@@ -41,7 +41,7 @@ class PerformanceCalculator
     solution
   end
 
-  def get_corrections(solutions_list)
+  def get_corrections_grades(solutions_list)
     grade_list = []
 
     solutions_list.each do | sol |
@@ -54,6 +54,29 @@ class PerformanceCalculator
     end
 
     grade_list
+  end
+
+  def get_average(grade_list, number_of_assignments)
+    if grade_list.size < number_of_assignments
+      new_grades_list = complete_grade_list(grade_list, (number_of_assignments - grade_list.size))
+      (new_grades_list.inject(:+)).to_f / number_of_assignments.size
+    else
+      (grade_list.inject(:+)).to_f / number_of_assignments.size
+    end
+  end
+
+  def complete_grade_list(list, number_to_add)
+    new_list = list
+
+    number_to_add.times do
+      new_list << 0
+    end
+
+    new_list
+  end
+
+  def student_status(average)
+    nil
   end
 
 end
