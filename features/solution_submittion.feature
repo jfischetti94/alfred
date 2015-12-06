@@ -88,14 +88,13 @@ Feature: Solution submission
     And   I upload the solution's file for "TP1"
     Then  I should see "La fecha de entrega ha caducado"
 
-Scenario: Submitting when blocking deadline has passed for two hours
-    Given there is a blocking assignment "TP1" with due date today two hours ago
+Scenario: Submitting when blocking deadline has passed for some hours
+    Given there is a blocking assignment "TP1" with due date today "7" hours ago
     And   I am logged in as student
     And   I follow "Trabajos prácticos"
     And   I click submit solution for "TP1"
     And   I upload the solution's file for "TP1"
     Then  I should see "La fecha de entrega ha caducado"
-
 
   Scenario: Submitting when blocking deadline has not passed
     Given there is a blocking assignment "TP1" with due date "3000-11-28" with "17" hour of the day already created

@@ -262,11 +262,11 @@ Then(/^I should see that date is correct$/) do
   pending # express the regexp above with the code you wish you had
 end
 
-Given(/^there is a blocking assignment "(.*?)" with due date today two hours ago$/) do |assignment_name|
+Given(/^there is a blocking assignment "(.*?)" with due date today "(.*?)" hours ago$/) do |assignment_name, hours_passed|
   assignment = Assignment.all.select{|assignment| assignment.name == assignment_name}.first
   assignment.is_blocking = true
   date = DateTime.now
-  due_date = DateTime.new(date.year, date.month, date.day, date.hour-2)
+  due_date = DateTime.new(date.year, date.month, date.day, (date.hour - hours_passed.to_i))
   assignment.deadline = due_date
   assignment.save
 end
