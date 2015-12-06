@@ -1,22 +1,18 @@
 class PerformanceCalculator
 
   def performance_for(student, course)
-    # Obtener todos los assignments pertenecientes al curso
+    # Get all assignment that belongs to course
     assignments_list = Assignment.find_by_course(course)
-    # Obtener LA ULTIMA solucion para cada assignment, si la misma existiese
+
+    # get LAST SOLUTION for each assignment, if there is any for each
     solutions_list = get_last_solution(assignments_list)
 
-    # Obtener promedio de soluciones, e indicar el estado segun promedio
-  end
+    # Get a list of grades, corresponding to each correction for those solutions. If a correction doesn't exists, then the grade is 0
+    corrections_list = get_corrections(solutions_list)
 
-  def filter_ids(list)
-    id_list = []
+    # Promediar las correcciones, e indicar el estado segun promedio
+    total_assignments = assignments_list.size
 
-    list.each do | elem |
-      id_list << elem.id
-    end
-
-    id_list
   end
 
   def get_last_solution(assignment_list)
@@ -43,6 +39,21 @@ class PerformanceCalculator
     end
 
     solution
+  end
+
+  def get_corrections(solutions_list)
+    grade_list = []
+
+    solutions_list.each do | sol |
+      correction = Correction.all(:solution => sol).first
+      if correction.nil?
+        grade_list << 0
+      else
+        correction.grade.nil? ? grade_list << 0 : grade_list << correction.grade
+      end
+    end
+
+    grade_list
   end
 
 end

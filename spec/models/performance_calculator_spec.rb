@@ -1,12 +1,12 @@
 require 'spec_helper'
 require File.expand_path(File.dirname(__FILE__) + "/../../models/performance_calculator")
-#require '../../models/performance_calculator'
 
 describe PerformanceCalculator do
 
-  let(:calculator) { PerformanceCalculator.new }
-  let(:course)     { Factories::Course.algorithm }
-  let (:student)   { Factories::Account.student }
+  let(:calculator)  { PerformanceCalculator.new }
+  let(:course)      { Factories::Course.algorithm }
+  let(:student)     { Factories::Account.student }
+  let(:teacher)     { Factories::Account.teacher }
 
   let(:assignment1) { Factories::Assignment.name("primer_tp", course) }
   let(:assignment2) { Factories::Assignment.name("segundo_tp", course) }
@@ -16,7 +16,7 @@ describe PerformanceCalculator do
     solution.link = "www.google.com.ar"
     creation_date = DateTime.new((Date.today.year.to_i - 2), Date.today.month, Date.today.day)
     solution.created_at = creation_date
-    solution.account_id = 1
+    solution.account_id = 2
     solution.assignment_id = 1
 
     solution.save
@@ -27,7 +27,7 @@ describe PerformanceCalculator do
     solution = Alfred::Admin::Solution.new
     solution.link = "www.taringa.com.ar"
     solution.created_at = DateTime.now
-    solution.account_id = 1
+    solution.account_id = 2
     solution.assignment_id = 1
 
     solution.save
@@ -38,23 +38,42 @@ describe PerformanceCalculator do
     solution = Alfred::Admin::Solution.new
     solution.link = "www.maps.com.ar"
     solution.created_at = DateTime.now
-    solution.account_id = 1
+    solution.account_id = 2
     solution.assignment_id = 2
 
     solution.save
     solution
   end
 
-  it 'should funcar' do
-    solution1_assignment1
-    solution2_assignment1
-    solution3_assignment2
+  def correction_solution1(solution, grade)
+    Alfred::App::Correction.create( :created_at => Date.today, :grade => grade, :teacher => teacher, :solution => solution )
+  end
 
-    solutions = Solution.all(:assignment => assignment1)
+  def correction_solution2(solution, grade)
+    Alfred::App::Correction.create( :created_at => Date.today, :grade => grade, :teacher => teacher, :solution => solution )
+  end
 
-    first = solutions[0].created_at
-    second = solutions[1].created_at
-    puts first < second
+  def correction_solution3(solution, grade)
+    Alfred::App::Correction.create( :created_at => Date.today, :grade => grade, :teacher => teacher, :solution => solution )
+  end
+
+  it 'should ELIMINAR PORQUE ES TEMPORAL' do
+    solution1 = solution1_assignment1
+    solution2 = solution2_assignment1
+    solution3 = solution3_assignment2
+    correction_solution1(solution1, 7)
+    correction_solution2(solution2, 8)
+    correction_solution3(solution3, 10)
+
+    corrections = Correction.all()
+
+    puts student.id
+    puts teacher.id
+    puts assignment1.id
+    puts assignment2.id
+    puts corrections[0].solution.link
+    puts corrections[1].solution.link
+    puts corrections[2].solution.link
   end
 
 =begin
@@ -67,6 +86,7 @@ describe PerformanceCalculator do
     studentHasCorrectionsWith(7,8)
     expect( calculator.performance_for(student,course) ).to eq "Buena"
   end
+
   it 'When a student works average is lower than 7 to 5 then the performance is "Pobre"' do
     studentHasCorrectionsWith(6,6)
     expect( calculator.performance_for(student,course) ).to eq "Pobre"
@@ -77,6 +97,26 @@ describe PerformanceCalculator do
     expect( calculator.performance_for(student,course) ).to eq "Desastre"
   end
 =end
+
+  context 'When I want the corrections for some solutions' do
+
+    it 'should bring me a correction list [8,0,4] first, and then [8,10,4]' do
+      solution1 = solution1_assignment1
+      solution2 = solution2_assignment1
+      solution3 = solution3_assignment2
+      correction_solution1(solution1, 8)
+      correction_solution3(solution3, 4)
+
+      corrections = calculator.get_corrections([solution1, solution2, solution3])
+
+      expect(corrections).to eq [8.0, 0, 4.0]
+
+      correction_solution2(solution2, 10)
+      corrections = calculator.get_corrections([solution1, solution2, solution3])
+      expect(corrections).to eq [8.0, 10.0, 4.0]
+    end
+
+  end
 
   context 'When I want the latest solution' do
 
@@ -103,25 +143,5 @@ describe PerformanceCalculator do
     end
 
   end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 end
