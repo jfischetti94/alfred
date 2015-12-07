@@ -275,8 +275,11 @@ end
 Given(/^there is a blocking assignment "(.*?)" with due date today two hours after$/) do |assignment_name|
   assignment = Assignment.all.select{|assignment| assignment.name == assignment_name}.first
   assignment.is_blocking = true
-  date = DateTime.now
-  due_date = DateTime.new(date.year, date.month, date.day, date.hour+2)
+  if DateTime.now.hour.to_i == 23
+    due_date = DateTime.new(Date.today.year, Date.today.month, (Date.today.day.to_i + 1), DateTime.now.hour)
+  else
+    due_date = DateTime.new(Date.today.year, Date.today.month, Date.today.day, (DateTime.now.hour.to_i + 2))
+  end
   assignment.deadline = due_date
   assignment.save
 end
