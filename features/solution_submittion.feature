@@ -88,7 +88,8 @@ Feature: Solution submission
     And   I upload the solution's file for "TP1"
     Then  I should see "La fecha de entrega ha caducado"
 
-Scenario: Submitting when blocking deadline has passed for some hours
+  @wip
+  Scenario: Submitting when blocking deadline has passed for some hours
     Given there is a blocking assignment "TP1" with due date today "7" hours ago
     And   I am logged in as student
     And   I follow "Trabajos prácticos"
